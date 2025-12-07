@@ -1,165 +1,148 @@
-URL Shortener – Laravel 10
-<p align="center"> <a href="https://laravel.com" target="_blank"> <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"> </a> </p> <p align="center"> <a href="#"><img src="https://img.shields.io/badge/Build-Passing-brightgreen" alt="Build Status"></a> <a href="#"><img src="https://img.shields.io/badge/Downloads-1K%2B-blue" alt="Downloads"></a> <a href="#"><img src="https://img.shields.io/badge/Version-1.0.0-success" alt="Version"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License"></a> </p>
-About This Project
+# URL Shortener Assignment
 
-URL Shortener is a simple yet powerful web application built with Laravel 10 and Bootstrap 5.
-It allows users to generate short, shareable URLs that instantly redirect to long original URLs.
+This project is a URL shortening service built using **Laravel 10+**, implementing role-based access control, company grouping, and restricted URL visibility rules.
 
-This is a perfect beginner-friendly Laravel project that demonstrates:
+---
 
-Routing (GET, POST)
+## 🚀 Project Setup Instructions
 
-Controllers & Models
+### 1. Clone the repository
 
-Eloquent ORM
+```bash
+git clone https://github.com/mdmaskuralam/your-repo-name.git
+cd your-repo-name
+```
 
-Middleware
+### 2. Install dependencies
 
-Database migrations
-
-Blade templating
-
-Bootstrap UI integration
-
-Features
-
-📝 Simple clean UI using Bootstrap
-
-🔗 Shorten any long URL
-
-🎯 Auto-generated unique 6-character short code
-
-⚡ Instant redirection to the original URL
-
-💾 Stored in MySQL database
-
-🔐 Validation for valid URL
-
-🚀 Fast and lightweight
-
-Installation
-
-Follow these steps to install the project:
-
-1. Clone the repository
-git clone https://github.com/your-username/url-shortener.git
-cd url-shortener
-
-2. Install Composer dependencies
+```bash
 composer install
+npm install
+```
 
-3. Create environment file
+### 3. Create environment file
+
+```bash
 cp .env.example .env
+```
 
-4. Generate Laravel app key
+### 4. Generate APP_KEY
+
+```bash
 php artisan key:generate
+```
 
-Database Configuration
+### 5. Configure Database
 
-Edit your .env file and update:
+Update `.env` with MySQL or SQLite configuration.
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=url_shortener
-DB_USERNAME=root
-DB_PASSWORD=
+For SQLite:
 
+```bash
+touch database/database.sqlite
+```
 
-Now run migrations:
+### 6. Run migrations & seeders
 
-php artisan migrate
+```bash
+php artisan migrate --seed
+```
 
-Running the Application
+> This will automatically create the **SuperAdmin** user using raw SQL (as required).
 
-Start the Laravel development server:
+### 7. Start the development server
 
+```bash
 php artisan serve
+```
 
+---
 
-Application will run at:
+## 🔐 Authentication & Authorization
 
-http://127.0.0.1:8000
+* Five predefined roles:
+  **SuperAdmin, Admin, Member, Sales, Manager**
+* SuperAdmin is created via Seeder
+* Laravel Breeze / Sanctum / Jetstream can be used for authentication
+* Users can log in and log out
 
-How It Works
-Step 1 — Enter a long URL
+---
 
-On the home page (/), there is a simple form where the user enters a URL.
+## 👥 Invitation Rules
 
-Step 2 — Process URL
+* **SuperAdmin cannot invite Admin in a new company**
+* **Admin cannot invite another Admin or Member in their own company**
 
-The app generates a unique short code using:
+---
 
-Str::random(6)
+## 🔗 URL Shortener Rules
 
-Step 3 — Store it
+* Admin **cannot** create short URLs
+* Member **cannot** create short URLs
+* SuperAdmin **cannot** create short URLs
+* SuperAdmin **cannot** see all URLs
+* Admin can **only see URLs NOT created inside their company**
+* Member can **only see URLs NOT created by themselves**
+* Short URLs are **not publicly resolvable** (no public redirect route)
+* Only authenticated users can access and resolve URLs
 
-The URL and short code are stored in the database.
+---
 
-Step 4 — Redirect
+## ✅ Tests Included
 
-Visiting:
+* Admin/Member cannot create URLs
+* SuperAdmin cannot create URLs
+* Admin sees only URLs outside their company
+* Member sees only URLs not created by themselves
+* Short URLs are protected from public access
 
-http://127.0.0.1:8000/Ab12Cd
+---
 
+## 📦 Tech Stack
 
-automatically redirects the user to the original URL.
+* **Laravel 10+**
+* **MySQL or SQLite**
+* **Blade (simple HTML, no CSS needed)**
+* **Laravel Auth Scaffolding**
 
-Project Structure
+---
+
+## 📁 Folder Structure (Important)
+
+```
 app/
- ├── Http/
- │    └── Controllers/
- │          └── UrlController.php
- ├── Models/
- │    └── Url.php
-database/
- └── migrations/
-public/
-resources/
- └── views/
-      └── welcome.blade.php
+├── Models/
+├── Http/
+│   ├── Controllers/
+│   ├── Middleware/
 routes/
- └── web.php
+│   ├── web.php
+database/
+│   ├── migrations/
+│   ├── seeders/
+resources/
+│   ├── views/
+```
 
-Routes
-Method	URI	Description
-GET	/	Show home page with URL form
-POST	/shorten	Generate shortened URL
-GET	/{shortCode}	Redirect to original URL
-Learning Laravel
+---
 
-Laravel is known for its expressive syntax, powerful features, and excellent documentation.
-You can explore more here:
+## 📝 Notes
 
-Official Docs: https://laravel.com/docs
+* You are free to improve UI if you want.
+* Authentication scaffolding (Jetstream / Breeze) is allowed.
+* Mockups provided in the assignment are only references.
 
-Laravel For Beginners: https://laravel.com/learn
+---
 
-Laracasts Videos: https://laracasts.com
+## 👤 SuperAdmin Credentials (Seeder)
 
-Screenshots (Optional)
+```
+Email: superadmin@example.com
+Password: password
+```
 
-You can add images later:
+---
 
-/screenshots/homepage.png
-/screenshots/result.png
+## 📜 License
 
-Contributing
-
-Pull requests are welcome.
-For major changes, please open an issue first to discuss what you would like to change.
-
-Security Vulnerabilities
-
-If you discover any security issue in this repository, please report it privately to the maintainer.
-
-License
-
-This project is open-sourced software licensed under the MIT License
-.
-
-Author
-
-Md Maskur Alam
-B.Tech CSIT (2022–2026)
-MIET, Meerut (AKTU)
+This project is for educational and assignment use.
